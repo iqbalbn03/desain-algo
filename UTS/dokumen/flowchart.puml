@@ -1,0 +1,29 @@
+@startuml flowchart
+start
+
+:Anggota melakukan registrasi;
+:Pustakawan bagian Registrasi menerima notifikasi;
+if (Registrasi diterima?) then (Ya)
+    :Pustakawan bagian Registrasi update data;
+    :Anggota menerima notifikasi diterima;
+    :Anggota melihat daftar buku;
+    :Anggota memilih buku dan mengajukan peminjaman;
+    :Pustakawan bagian Buku menerima notifikasi peminjaman;
+    :Pustakawan bagian Buku melakukan pengecekan ketersediaan buku;
+    
+    if (Buku tersedia?) then (Ya)
+        :Pustakawan bagian Buku menyetujui peminjaman;
+        :Anggota menerima jadwal pengembalian buku;
+        :Proses selesai;
+    else (Tidak)
+        :Peminjaman dihentikan;
+        :Anggota menerima notifikasi buku tidak tersedia;
+        :Proses berhenti;
+    endif
+else (Tidak)
+    :Pustakawan bagian Registrasi mengirim notifikasi penolakan;
+    :Proses berhenti;
+endif
+
+stop
+@enduml
