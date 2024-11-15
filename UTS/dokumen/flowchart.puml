@@ -1,28 +1,39 @@
 @startuml flowchart
+|Pengunjung|
 start
+:Registrasi Pengunjung;
+:Input data registrasi;
 
-:Anggota melakukan registrasi;
-:Pustakawan bagian Registrasi menerima notifikasi;
-if (Registrasi diterima?) then (Ya)
-    :Pustakawan bagian Registrasi update data;
-    :Anggota menerima notifikasi diterima;
-    :Anggota melihat daftar buku;
-    :Anggota memilih buku dan mengajukan peminjaman;
-    :Pustakawan bagian Buku menerima notifikasi peminjaman;
-    :Pustakawan bagian Buku melakukan pengecekan ketersediaan buku;
-    
-    if (Buku tersedia?) then (Ya)
-        :Pustakawan bagian Buku menyetujui peminjaman;
-        :Anggota menerima jadwal pengembalian buku;
-        :Proses selesai;
-    else (Tidak)
-        :Peminjaman dihentikan;
-        :Anggota menerima notifikasi buku tidak tersedia;
-        :Proses berhenti;
-    endif
+|Administrator|
+:Verifikasi data pengunjung;
+note right: Administrator menerima notifikasi \nuntuk memverifikasi pengunjung baru
+if (Data valid?) then (Ya)
+  :Setujui registrasi;
+  :Pengunjung dapat melakukan peminjaman;
 else (Tidak)
-    :Pustakawan bagian Registrasi mengirim notifikasi penolakan;
-    :Proses berhenti;
+  :Tolak registrasi;
+  :Pengunjung menerima notifikasi penolakan;
+  stop
+endif
+
+|Pengunjung|
+:Melihat daftar buku;
+if (Memilih buku?) then (Ya)
+  :Lakukan peminjaman;
+else (Tidak)
+  stop
+endif
+
+|Administrator|
+:Notifikasi peminjaman diterima;
+:Periksa ketersediaan buku;
+
+if (Buku tersedia?) then (Ya)
+  :Setujui peminjaman;
+  :Berikan tanggal pengembalian;
+else (Tidak)
+  :Tolak peminjaman;
+  :Notifikasi buku tidak tersedia;
 endif
 
 stop

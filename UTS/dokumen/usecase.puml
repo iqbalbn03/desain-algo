@@ -1,56 +1,35 @@
-@startuml usecase
+@startuml
+actor Pengunjung
+actor Administrator
 
-actor "Anggota" as A
-actor "Pustakawan bagian Registrasi" as P
-actor "Pustakawan bagian buku" as P2
+usecase "Registrasi Pengunjung" as UC_Registrasi
+usecase "Input Data Registrasi" as UC_InputData
+usecase "Verifikasi Data Pengunjung" as UC_Verifikasi
+usecase "Setujui Registrasi" as UC_SetujuiRegistrasi
+usecase "Tolak Registrasi" as UC_TolakRegistrasi
+usecase "Melihat Daftar Buku" as UC_LihatBuku
+usecase "Pilih Buku untuk Peminjaman" as UC_PilihBuku
+usecase "Lakukan Peminjaman" as UC_LakukanPeminjaman
+usecase "Notifikasi Peminjaman" as UC_NotifikasiPeminjaman
+usecase "Periksa Ketersediaan Buku" as UC_PeriksaBuku
+usecase "Setujui Peminjaman" as UC_SetujuiPeminjaman
+usecase "Tolak Peminjaman" as UC_TolakPeminjaman
 
+Pengunjung -> UC_Registrasi
+UC_Registrasi --> UC_InputData
+UC_InputData --> UC_Verifikasi
+Administrator --> UC_Verifikasi
+UC_Verifikasi --> UC_SetujuiRegistrasi : if data valid
+UC_Verifikasi --> UC_TolakRegistrasi : if data invalid
 
-usecase "Registrasi Anggota" as UC1
-usecase "Update Data Anggota" as UC2
-usecase "ditolak" as UC3
-usecase "diterima" as UC4
-usecase "Update Data Buku" as UC5
-usecase "Menambah Buku" as UC6
-usecase "Menghapus Buku" as UC7
-usecase "Pengembalian Buku" as UC8
-usecase "Meminjam Buku" as UC9
-usecase "Melihat Buku" as UC10
-usecase "stop" as UC11
-usecase "cek buku" as UC12
-usecase "tersedia" as UC13
-usecase "tidak tersedia" as UC14
-usecase "disetujui" as UC15
+Pengunjung --> UC_LihatBuku
+UC_LihatBuku --> UC_PilihBuku
+UC_PilihBuku --> UC_LakukanPeminjaman
+UC_LakukanPeminjaman --> UC_NotifikasiPeminjaman
+UC_NotifikasiPeminjaman --> Administrator
 
-A -> UC1 : Registrasi
-UC1 -> P : Menerima Notifikasi
-P -> UC2 : Update Data
-UC2 .> UC3 : extend
-UC2 .> UC4 : extend
-UC3 --> A : Menerima notifikasi
-UC4 -> A : Menerima notifikasi
-A --> UC11 : jika registrasi ditolak
-A --> UC10 : jika registrasi diterima
-UC10 --> UC9 : Peminjaman
-UC9 --> P2 : Menerima notifikasi
-
-P2 -> UC12 : pengecekan
-UC12 .> UC14 : extend
-UC14 -> UC11 : stop
-UC12 ..> UC13 : extend
-UC13 -> UC15 : disetujui
-UC15 -> UC8 : memberitahukan jadwal pengembalian
-
-P2 --> UC5 : Update Data
-UC5 ..> UC6 : include
-UC5 ..> UC7 : include
-
-
-
-
-
-
-
-
-
+Administrator --> UC_PeriksaBuku
+UC_PeriksaBuku --> UC_SetujuiPeminjaman : if buku tersedia
+UC_PeriksaBuku --> UC_TolakPeminjaman : if buku tidak tersedia
 
 @enduml
