@@ -1,0 +1,29 @@
+@startuml flowchart
+
+start
+
+:Pengunjung Registrasi;
+if (Verifikasi oleh Administrator?) then (Ya)
+  :Verifikasi Disetujui;
+  :Pengunjung Terdaftar;
+else (Tidak)
+  :Verifikasi Ditolak;
+  stop
+endif
+
+:Pengunjung Meminta Peminjaman Buku;
+if (Cek Ketersediaan Buku) then (Tersedia)
+  :Buku Dipinjamkan;
+  :Catat Tanggal Peminjaman;
+  :Proses Pengembalian Dimulai;
+else (Tidak Tersedia)
+  :Peminjaman Ditolak;
+  stop
+endif
+
+:Administrator Menambah/Mengelola Buku;
+:Administrator Mengatur Hak Akses Pengguna;
+
+stop
+
+@enduml

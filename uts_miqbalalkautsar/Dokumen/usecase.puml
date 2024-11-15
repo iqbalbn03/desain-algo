@@ -1,0 +1,28 @@
+@startuml usecase
+
+actor "Pengunjung" as P
+actor "Administrator" as A
+
+usecase "Registrasi Pengunjung" as UC1
+usecase "Update Data Pengunjung" as UC2
+usecase "Peminjaman Buku" as UC3
+usecase "Pengembalian Buku" as UC4
+usecase "Cek Ketersediaan Buku" as UC5
+usecase "Manajemen Buku" as UC6
+usecase "Mengatur Peran dan Izin" as UC7
+
+' Registrasi Pengunjung Flow
+P --> UC1 : Registrasi
+UC1 --> A : Verifikasi Pendaftaran
+A --> UC2 : Update Data Pengunjung
+
+' Peminjaman Buku Flow
+P --> UC3 : Peminjaman Buku
+UC3 --> UC5 : Pengecekan Ketersediaan
+UC5 --> UC4 : Konfirmasi atau Penolakan
+
+' Manajemen oleh Administrator
+A --> UC6 : Mengelola Buku
+A --> UC7 : Mengatur Hak Akses
+
+@enduml
